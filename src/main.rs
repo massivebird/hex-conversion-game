@@ -11,17 +11,21 @@ fn main() {
 
         println!("Enter the decimal equivalent of {answer_hex}.");
 
-        print!("> ");
+        let user_guess = loop {
+            print!("> ");
 
-        // Aligns input cursor with input prompt
-        std::io::stdout().flush().unwrap();
+            // Aligns input cursor with input prompt
+            std::io::stdout().flush().unwrap();
 
-        let mut raw_input = String::new();
-        std::io::stdin().read_line(&mut raw_input).unwrap();
+            let mut raw_input = String::new();
+            std::io::stdin().read_line(&mut raw_input).unwrap();
 
-        let Ok(user_guess) = raw_input.trim_end().parse::<u32>() else {
-            println!("Unable to parse number. Try again.");
-            continue;
+            let Ok(decimal_value) = raw_input.trim_end().parse::<u32>() else {
+                println!("Unable to parse number. Try again.");
+                continue;
+            };
+
+            break decimal_value;
         };
 
         if user_guess == answer_decimal {
