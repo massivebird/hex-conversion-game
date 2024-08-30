@@ -30,3 +30,16 @@ fn num_to_hex(n: u32) -> String {
 
     format!("x{}{}", digit_converter(sixteens), digit_converter(ones))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::num_to_hex;
+
+    #[test]
+    fn hex_is_correct() {
+        assert_eq!(num_to_hex(0), "x00");
+        assert_eq!(num_to_hex(5), "x05");
+        assert_eq!(num_to_hex(16), "x10");
+        assert_eq!(num_to_hex(255), "xFF");
+    }
+}
