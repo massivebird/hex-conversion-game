@@ -34,6 +34,10 @@ fn main() {
 }
 
 fn num_to_hex(n: u32) -> String {
+    let largest_power_of_16 = if n == 0 { 0 } else { n.ilog(16) };
+
+    let mut hex_chars: Vec<char> = Vec::new();
+
     let digit_converter = |digit: u32| -> char {
         match digit {
             // +48 maps range 0..=9 to ASCII range '0'..='9'
@@ -48,10 +52,15 @@ fn num_to_hex(n: u32) -> String {
         }
     };
 
-    let sixteens = n / 16;
-    let ones = n - (16 * sixteens);
+    let mut working_n = n;
 
-    format!("x{}{}", digit_converter(sixteens), digit_converter(ones))
+    for power in (0..=largest_power_of_16).rev() {
+        let num = working_n / 16u32.pow(power);
+        hex_chars.push(digit_converter(num));
+        working_n -= num * 16u32.pow(power);
+    }
+
+    format!("x{}", hex_chars.iter().collect::<String>())
 }
 
 fn user_inputted_u32() -> u32 {
