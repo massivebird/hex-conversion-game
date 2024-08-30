@@ -1,6 +1,5 @@
-use std::io::Write;
-
 use rand::prelude::*;
+use std::io::Write;
 
 fn main() {
     let mut rng = rand::thread_rng();
