@@ -43,12 +43,21 @@ fn num_to_hex(n: u32) -> String {
         }
     };
 
-    let mut working_n = n;
+    // The actual number-to-hex computation
+    {
+        // We will decrement a copy of n until it reaches zero
+        let mut remainder = n;
 
-    for power in (0..=largest_power_of_16).rev() {
-        let num = working_n / 16u32.pow(power);
-        hex_chars.push(digit_converter(num));
-        working_n -= num * 16u32.pow(power);
+        for power in (0..=largest_power_of_16).rev() {
+            // Compute next digit value.
+            // "How many times does 16^{power} fit into the remainder?"
+            let digit_value = remainder / 16u32.pow(power);
+
+            hex_chars.push(digit_converter(digit_value));
+
+            // compute working remainder of n to prepare for next iteration
+            remainder -= digit_value * 16u32.pow(power);
+        }
     }
 
     format!("x{}", hex_chars.iter().collect::<String>())
