@@ -4,28 +4,26 @@ use std::io::Write;
 fn main() {
     let mut rng = rand::thread_rng();
 
+    println!("Enter the maximum value to be generated. (max 255)");
+
+    let range_max = loop {
+        let inputted_number = user_inputted_u32();
+
+        if inputted_number > 255 {
+            println!("Value unallowed: input a value between 0 and 255.");
+            continue;
+        }
+
+        break inputted_number;
+    };
+
     loop {
-        let answer_decimal: u32 = rng.gen_range(0..=255);
+        let answer_decimal: u32 = rng.gen_range(0..=range_max);
         let answer_hex: String = num_to_hex(answer_decimal);
 
         println!("Enter the decimal equivalent of {answer_hex}.");
 
-        let user_guess = loop {
-            print!("> ");
-
-            // Aligns input cursor with input prompt
-            std::io::stdout().flush().unwrap();
-
-            let mut raw_input = String::new();
-            std::io::stdin().read_line(&mut raw_input).unwrap();
-
-            let Ok(decimal_value) = raw_input.trim_end().parse::<u32>() else {
-                println!("Unable to parse number. Try again.");
-                continue;
-            };
-
-            break decimal_value;
-        };
+        let user_guess = user_inputted_u32();
 
         if user_guess == answer_decimal {
             println!("Correct!\n");
@@ -54,6 +52,25 @@ fn num_to_hex(n: u32) -> String {
     let ones = n - (16 * sixteens);
 
     format!("x{}{}", digit_converter(sixteens), digit_converter(ones))
+}
+
+fn user_inputted_u32() -> u32 {
+    loop {
+        print!("> ");
+
+        // Aligns input cursor with input prompt
+        std::io::stdout().flush().unwrap();
+
+        let mut raw_input = String::new();
+        std::io::stdin().read_line(&mut raw_input).unwrap();
+
+        let Ok(decimal_value) = raw_input.trim_end().parse::<u32>() else {
+            println!("Unable to parse number. Try again.");
+            continue;
+        };
+
+        break decimal_value;
+    }
 }
 
 #[cfg(test)]
