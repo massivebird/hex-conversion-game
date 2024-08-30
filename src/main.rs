@@ -13,7 +13,7 @@ fn main() {
 fn num_to_hex(n: u32) -> String {
     let digit_converter = |digit: u32| -> char {
         match digit {
-            n @ 0..=9 => n.to_string().chars().next().unwrap(),
+            n @ 0..=9 => char::from_u32(n + 48).unwrap(),
             10 => 'A',
             11 => 'B',
             12 => 'C',
@@ -25,10 +25,7 @@ fn num_to_hex(n: u32) -> String {
     };
 
     let sixteens = n / 16;
-    dbg!(sixteens);
     let ones = n - (16 * sixteens);
-    dbg!(ones);
-    dbg!(digit_converter(sixteens));
 
     format!("x{}{}", digit_converter(sixteens), digit_converter(ones))
 }
