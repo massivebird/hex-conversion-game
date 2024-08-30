@@ -4,18 +4,9 @@ use std::io::Write;
 fn main() {
     let mut rng = rand::thread_rng();
 
-    println!("Enter the maximum value to be generated. (max 255)");
+    println!("Enter the maximum value to be generated.");
 
-    let range_max = loop {
-        let inputted_number = user_inputted_u32();
-
-        if inputted_number > 255 {
-            println!("Value unallowed: input a value between 0 and 255.");
-            continue;
-        }
-
-        break inputted_number;
-    };
+    let range_max = user_inputted_u32();
 
     loop {
         let answer_decimal: u32 = rng.gen_range(0..=range_max);
