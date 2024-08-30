@@ -13,6 +13,7 @@ fn main() {
 fn num_to_hex(n: u32) -> String {
     let digit_converter = |digit: u32| -> char {
         match digit {
+            // +48 maps range 0..=9 to ASCII range '0'..='9'
             n @ 0..=9 => char::from_u32(n + 48).unwrap(),
             10 => 'A',
             11 => 'B',
