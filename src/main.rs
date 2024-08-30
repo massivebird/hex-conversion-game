@@ -6,7 +6,7 @@ fn main() {
 
     println!("Enter the maximum value to be generated.");
 
-    let range_max = user_inputted_u32();
+    let range_max = prompt_user_for_u32();
 
     loop {
         let answer_decimal: u32 = rng.gen_range(0..=range_max);
@@ -14,7 +14,7 @@ fn main() {
 
         println!("Enter the decimal equivalent of {answer_hex}.");
 
-        let user_guess = user_inputted_u32();
+        let user_guess = prompt_user_for_u32();
 
         if user_guess == answer_decimal {
             println!("Correct!\n");
@@ -57,18 +57,20 @@ fn num_to_hex(n: u32) -> String {
     format!("x{}", hex_chars.iter().collect::<String>())
 }
 
-fn user_inputted_u32() -> u32 {
+/// Generates a prompt for user input. Retries until the input is successfully
+/// parsed into an unsigned integer.
+fn prompt_user_for_u32() -> u32 {
     loop {
         print!("> ");
 
-        // Aligns input cursor with input prompt
+        // Positions input cursor after input prompt
         std::io::stdout().flush().unwrap();
 
         let mut raw_input = String::new();
         std::io::stdin().read_line(&mut raw_input).unwrap();
 
         let Ok(decimal_value) = raw_input.trim_end().parse::<u32>() else {
-            println!("Unable to parse number. Try again.");
+            println!("Unable to parse unsigned integer. Try again.");
             continue;
         };
 
